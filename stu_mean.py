@@ -50,9 +50,25 @@ def get_mean(stud):
     Listy = get_grades(sid)
     thesum = sum(Listy)
     return thesum / len(Listy)
+
+def get_stud_info():
+    info_list = []
+    for each in c.execute("SELECT name FROM peeps;"):
+        name = each[0]
+       # print name
+        info_list.append(str(name))
+    count = 0
+    for name in info_list:
+        for each in c.execute("SELECT id FROM peeps WHERE name = \"%s\";"%name):
+            sid = each[0]
+            info_list[count] += ", " + str(sid) + ", " + str(get_mean(name))
+            count += 1
+    return info_list            
+
+
 #==========================================================
 
-print get_mean("kruder")
+print get_stud_info()
 
 db.commit() #save changes
 db.close()  #close database
