@@ -90,8 +90,9 @@ def update_average(sid):
     command = "UPDATE peeps_avg SET avg = \"%s\" WHERE id = %s;"%(str(new_average), tuple_sid)
     return new_average
 
-    
-    
+def add_row(course, mark, sid):
+    c.execute("INSERT INTO courses VALUES (\"%s\", %d, %d);"%(course, mark, sid))
+
 #==========================================================
 # Testing Functions
 #==========================================================
@@ -114,9 +115,13 @@ add_table()
 for each in c.execute("SELECT * FROM peeps_avg;"):
     print "%d: %d"%(each[0], each[1])
 
-print "Updating average..."
+print "\nUpdating average..."
 print "Old average kruder = 79, changing 65 to 75, new average should be 83"
 print update_grade(1, "softdev", 75)
+
+print "\nAlmost forgot that kruder got a 9001 in memelogy! Fixing the table..."
+add_row("memology", 9001, 1)
+print "His new average is: %d"%(update_average(1))
 
 db.commit() #save changes
 db.close()  #close database
