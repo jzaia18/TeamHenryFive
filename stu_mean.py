@@ -119,8 +119,8 @@ print "\nUpdating average..."
 print "Old average kruder = 79, changing 65 to 75, new average should be 83"
 print update_grade(1, "softdev", 75)
 
-print "\nAlmost forgot that kruder got a 9001 in memelogy! Fixing the table..."
-add_row("memology", 9001, 1)
+print "\nAlmost forgot that kruder got over 9000 in memeology! Fixing the table..."
+add_row("memeology", 9001, 1)
 print "His new average is: %d"%(update_average(1))
 
 db.commit() #save changes
