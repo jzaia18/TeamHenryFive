@@ -74,6 +74,22 @@ def add_table():
     for each in info:
         each = each.split(',')
         c.execute("INSERT INTO peeps_avg VALUES (%d, %d);"%(int(each[1]), int(each[2])))
+
+def update_grade(sid, course, new_grade):
+    command = "UPDATE courses SET mark = %d WHERE id = %d AND code = \"%s\";"%(new_grade, sid, course)
+    c.execute(command);
+    return update_average(sid)
+
+def update_average(sid):
+    grades_list = get_grades(sid)
+    thesum = sum(grades_list)
+    if len(grades_list) == 0: #Catch div by 0 error
+        return 0
+    new_average = thesum / len(grades_list)
+    tuple_sid = (sid,)
+    command = "UPDATE peeps_avg SET avg = \"%s\" WHERE id = %s;"%(str(new_average), tuple_sid)
+    return new_average
+
     
     
 #==========================================================
@@ -97,6 +113,10 @@ print "Creating a table of ids & avgs..."
 add_table()
 for each in c.execute("SELECT * FROM peeps_avg;"):
     print "%d: %d"%(each[0], each[1])
+
+print "Updating average..."
+print "Old average kruder = 79, changing 65 to 75, new average should be 83"
+print update_grade(1, "softdev", 75)
 
 db.commit() #save changes
 db.close()  #close database
